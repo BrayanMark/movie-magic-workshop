@@ -8,11 +8,16 @@ const userSchema = new Schema({
         required: true,
         lowercase: true,
         unique: true,
+        match: [/@[a-zA-Z0-9]+\.[a-zA-Z0-9]+&/, "Should end in @x.x, where x is one or more English letters/digits"],
+        minLength: [10, "Should be at least 10 characters long "],
+
     },
 
     password: {
         type: String,
+        match: [/^[a-zA-Z0-9]+&/, "Should consist only of English letters and digits"],
         required: true,
+        minLength: [6, "Should be at least 6 characters long"],
     },
 });
 
