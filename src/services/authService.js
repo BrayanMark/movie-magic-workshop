@@ -6,7 +6,6 @@ const { SECRET } = require("../config/config");
 // TODO if user exists
 
 exports.register = (userData) => User.create(userData);
-
 exports.login = async (email, password) => {
     // Get user from DB
     const user = await User.findOne({email});
@@ -16,10 +15,9 @@ exports.login = async (email, password) => {
         throw new Error("Cannot find username or password!");
     }
 
-    // Check if password is valid
     const isValid = await bcrypt.compare(password, user.password);
     if (!isValid) {
-        throw new Error("Cannot find username or password!");
+        throw new Error("Cannot find username or password!"); // If is not correct user data email + password
     }
 
     // Generate jwt token
@@ -29,7 +27,5 @@ exports.login = async (email, password) => {
     };
 
     const token = await jwt.sign(payload, SECRET, { expiresIn: "2h"});
-
-    // return token
     return token;
 };
