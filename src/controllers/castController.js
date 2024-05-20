@@ -1,16 +1,24 @@
 const router = require("express").Router();
+const { isAuth } = require("../middleware/authMiddleware");
 const castService = require("../services/castService");
 
+const { getErrorMessage } = require("../utils/errorUtils");
 router.get("/create", (req, res) => {
     res.render("cast/create");
 });
 
-router.post("/create", async (req, res) => {
-    console.log(req.body);
-    const castData = req.body;
-    await castService.create(castData);
+router.post("/create", isAuth, async (req, res) => {
     
-    res.redirect("/");
+    const castData = req.body;
+    try {
+        await castService.create(castData);
+
+        res.redirect("/");
+    } catch (err) {
+        const message = getErrorMessage(err);
+        res.status(400).render("cast/create", { error: message, ...castData });
+    }
+    
 });
 
 module.exports = router;
