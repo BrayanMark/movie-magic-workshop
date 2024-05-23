@@ -1,2 +1,2 @@
-# movie-magic-april-2024
+# movie-magic-may-2024
 JS Backend Workshop @Softuni
