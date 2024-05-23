@@ -12,11 +12,10 @@ router.post("/create", isAuth, async (req, res) => {
     const castData = req.body;
     try {
         await castService.create(castData);
-
         res.redirect("/");
     } catch (err) {
         const message = getErrorMessage(err);
-        res.status(400).render("cast/create", { error: message, ...castData });
+        res.render("cast/create", { error: message, ...castData });
     }
     
 });

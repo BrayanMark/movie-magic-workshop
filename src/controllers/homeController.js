@@ -1,9 +1,16 @@
 const router = require("express").Router();
 const movieService = require("../services/movieService");
+const { getErrorMessage } = require("../utils/errorUtils");
 
 router.get("/", async (req, res) => {
-    const movies = await movieService.getAll().lean();
-    res.render("home", { movies });
+
+    try {        
+        const movies = await movieService.getAll().lean();
+        res.render("home", { movies });
+    } catch (err) {
+        const message = getErrorMessage(err);
+        res.render("home", { error: message });
+    }
 });
 
 router.get("/about", (req, res) => {
