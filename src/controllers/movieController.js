@@ -83,7 +83,7 @@ router.post("/movies/:movieId/edit", isAuth, async (req, res) => {
       res.redirect(`/movies/${req.params.movieId}`);
     } catch (err) {
       const message = getErrorMessage(err);
-      res.render("movie/edit", { ...editedMovie , error: message });
+      res.render("movie/edit", { error: message });
     }
 });
 
