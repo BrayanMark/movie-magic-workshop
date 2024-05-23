@@ -4,7 +4,6 @@ const { SECRET } = require("../config/config");
 exports.auth = async (req, res, next) => {
     // get token
     const token = req.cookies["auth"];
-
     // validate token
     if (!token) {
         return next();
@@ -12,7 +11,6 @@ exports.auth = async (req, res, next) => {
 
     try {
         const decodedToken = await jwt.verify(token, SECRET);
-
         req.user = decodedToken;
         res.locals.isAuthenticated = true;
         

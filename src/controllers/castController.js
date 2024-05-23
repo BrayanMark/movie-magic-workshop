@@ -10,14 +10,14 @@ router.get("/create", (req, res) => {
 router.post("/create", isAuth, async (req, res) => {
     
     const castData = req.body;
-    try {
+
+        try {
         await castService.create(castData);
         res.redirect("/");
-    } catch (err) {
+        } catch (err) {
         const message = getErrorMessage(err);
-        res.render("cast/create", { error: message, ...castData });
+        res.render("cast/create", { ...castData, error: message });
     }
-    
 });
 
 module.exports = router;

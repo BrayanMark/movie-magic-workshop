@@ -9,7 +9,7 @@ router.get("/", async (req, res) => {
         res.render("home", { movies });
     } catch (err) {
         const message = getErrorMessage(err);
-        res.render("home", { error: message });
+        res.render("home", {...movies, error: message });
     }
 });
 

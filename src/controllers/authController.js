@@ -1,5 +1,4 @@
 const router = require("express").Router();
-
 const authService = require("../services/authService");
 const { getErrorMessage } = require("../utils/errorUtils");
 
@@ -33,7 +32,7 @@ router.post("/login", async (req, res) => {
           res.redirect("/");
         } catch (err) {
           const message = getErrorMessage(err);
-          res.render("auth/login", { error: message });
+          res.render("auth/login", { ...{ email, password }, error: message });
         }
 });
 

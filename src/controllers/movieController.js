@@ -16,50 +16,34 @@ router.post("/create", isAuth, async (req, res) => {
     res.redirect("/");
   } catch (err) {
     const message = getErrorMessage(err);
-    res.render("create", { error: message });
+    res.render("create", { ...newCreatedMovie, error: message });
   }
 });
 
 router.get("/movies/:movieId", async (req, res) => {
     const movieId = req.params.movieId;
-
-    try {      
+  
       const movie = await movieService.getOne(movieId).lean();
       const isOwner = movie.owner == req.user?._id;
       movie.rating = new Array(Number(movie.rating)).fill(true);
       res.render("movie/details", { movie, isOwner });
-    } catch (err) {
-      const message = getErrorMessage(err);
-      res.render("movie/details", { error: message });
-    }
-
 });
 
 router.get("/movies/:movieId/attach", isAuth, async (req, res) => {
 
-  try {
     const movie = await movieService.getOne(req.params.movieId).lean();
     const casts = await castService.getAll().lean();
     res.render("movie/attach", { ...movie, casts });
-  } catch (err) {
-    const message = getErrorMessage(err);
-    res.render("movie/attach", { error: message });
-  }
 
 });
 
 router.post("/movies/:movieId/attach", isAuth, async (req, res) => {
     const castId = req.body.cast;
-
-    try {      
+   
       const movie = await movieService.getOne(req.params.movieId);
       movie.casts.push(castId);
       await movie.save();
       res.redirect(`/movies/${movie._id}/attach`);
-    } catch (err) {
-      const message = getErrorMessage(err);
-      res.render("movie/attach", { error: message });
-    }
 
 });
 
@@ -70,7 +54,7 @@ router.get("/movies/:movieId/edit", isAuth, async (req, res) => {
     res.render("movie/edit", { movie });
   } catch (err) {
     const message = getErrorMessage(err);
-    res.render("movie/edit", { error: message });
+    res.render("movie/edit", { ...movie, error: message });
   }
 
 });

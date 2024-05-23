@@ -1,6 +1,5 @@
 const mongoose = require("mongoose");
 
-// Validator function for castImage field
 const validateCastImage = (value) => {
     return /^https?:\/\//.test(value);
 };
@@ -42,5 +41,4 @@ const castSchema = new mongoose.Schema({
 });
 
 const Cast = mongoose.model("Cast", castSchema);
-
 module.exports = Cast;
